@@ -1,0 +1,8 @@
+var tipuesearch = {"pages": [
+{"mainTitle": "Analysis", "title": "Analysis", "text": "Analysis ", "tags": "", "mainUrl": "http://vatlab.github.io/jnbinder/analysis.html", "url": "http://vatlab.github.io/jnbinder/analysis.html#Analysis"},
+{"mainTitle": "Analysis", "title": "2019/09", "text": "2019 09 ", "tags": "", "mainUrl": "http://vatlab.github.io/jnbinder/analysis.html", "url": "http://vatlab.github.io/jnbinder/analysis.html#2019/09"},
+{"mainTitle": "Welcome to A Pet Project!", "title": "Welcome to A Pet Project!", "text": "Welcome to A Pet Project ", "tags": "", "mainUrl": "http://vatlab.github.io/jnbinder/index.html", "url": "http://vatlab.github.io/jnbinder/index.html#Welcome-to-A-Pet-Project!"},
+{"mainTitle": "RV-NPL analysis for selected genes", "title": "RV-NPL analysis for selected genes", "text": "RV-NPL analysis for selected genes ", "tags": "", "mainUrl": "http://vatlab.github.io/jnbinder/analysis/20190930_NPL_Gene_Analysis.html", "url": "http://vatlab.github.io/jnbinder/analysis/20190930_NPL_Gene_Analysis.html#RV-NPL-analysis-for-selected-genes"},
+{"mainTitle": "RV-NPL analysis for selected genes", "title": "Workflow process", "text": "Workflow process ", "tags": "", "mainUrl": "http://vatlab.github.io/jnbinder/analysis/20190930_NPL_Gene_Analysis.html", "url": "http://vatlab.github.io/jnbinder/analysis/20190930_NPL_Gene_Analysis.html#Workflow-process"},
+{"mainTitle": "RV-NPL analysis for selected genes", "title": "Results", "text": "Results ", "tags": "", "mainUrl": "http://vatlab.github.io/jnbinder/analysis/20190930_NPL_Gene_Analysis.html", "url": "http://vatlab.github.io/jnbinder/analysis/20190930_NPL_Gene_Analysis.html#Results"}
+]};
