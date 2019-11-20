@@ -1,10 +1,10 @@
-# name: 'RV-NPL project analysis'
-# repo: 'http://github.com/percylinhai/rvnpl-notes'
-# footer: "&copy 2019 Linhai Zhao at Center for Statistical Genetics, Baylor College of Medicine"
+name: 'RV-NPL project analysis'
+repo: 'http://github.com/percylinhai/rvnpl-notes'
+footer: "&copy 2019 Linhai Zhao at Center for Statistical Genetics, Baylor College of Medicine"
 include_dir: ['analysis']
 # exclude_file: []
 # hide_navbar: []
-homepage: "Overview.ipynb"
+# homepage: "Overview.ipynb"
 # skip_homepage: False
 # add_commit_info: True
 # disqus: NULL
