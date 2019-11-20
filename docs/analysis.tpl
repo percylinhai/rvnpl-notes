@@ -187,7 +187,7 @@ $(document).ready(function () {
 
 
 
-<title>A Pet Project</title>
+<title>RV-NPL project analysis</title>
 
 <style type = "text/css">
 body {
@@ -212,7 +212,7 @@ body {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">A Pet Project</a>
+      <a class="navbar-brand" href="../index.html">RV-NPL project analysis</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ body {
         
 <ul class="nav navbar-nav navbar-right">
 <li>
-   <a href="http://github.com/vatlab/jnbinder"> <span class="fa fa-github"></span> </a>
+   <a href="http://github.com/percylinhai/rvnpl-notes"> <span class="fa fa-github"></span> </a>
 </li>
 </ul>
         
@@ -241,7 +241,7 @@ body {
 
 {% block footer %}
 <hr>
-&copy 2016-2017 Gao Wang at Stephens Lab, University of Chicago
+&copy 2019 Linhai Zhao at Center for Statistical Genetics, Baylor College of Medicine
 </div>
 </div>
 </body>

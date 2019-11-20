@@ -10,7 +10,7 @@
 <meta name="ipynb_website:version" content="0.9.7" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>A Pet Project</title>
+<title>RV-NPL project analysis</title>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -176,7 +176,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">A Pet Project</a>
+      <a class="navbar-brand" href="index.html">RV-NPL project analysis</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -193,7 +193,7 @@ $(document).ready(function () {
     
 <ul class="nav navbar-nav navbar-right">
 <li>
-   <a href="http://github.com/vatlab/jnbinder"> <span class="fa fa-github"></span> </a>
+   <a href="http://github.com/percylinhai/rvnpl-notes"> <span class="fa fa-github"></span> </a>
 </li>
 </ul>
         
@@ -204,7 +204,7 @@ $(document).ready(function () {
 {%- endblock header -%}
 {% block footer %}
 <hr>
-&copy 2016-2017 Gao Wang at Stephens Lab, University of Chicago
+&copy 2019 Linhai Zhao at Center for Statistical Genetics, Baylor College of Medicine
 <!-- To enable disqus, uncomment the section below and provide your disqus_shortname -->
 
 </div>
