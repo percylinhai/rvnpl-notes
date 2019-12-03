@@ -235,7 +235,7 @@ body {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="RV-NPL-analysis-for-selected-genes-in-ADSP-pedigrees">RV-NPL analysis for selected genes in ADSP pedigrees<a class="anchor-link" href="#RV-NPL-analysis-for-selected-genes-in-ADSP-pedigrees">&#182;</a></h1><p>In this notebook I re-analyze several genes highlighted in the RV-NPL paper, to show how RV-NPL can be used to analyze real data with high extent of missing parental data.</p>
+<h1 id="RV-NPL-analysis-for-simulated-genes">RV-NPL analysis for simulated genes<a class="anchor-link" href="#RV-NPL-analysis-for-simulated-genes">&#182;</a></h1><h3 id="Aim">Aim<a class="anchor-link" href="#Aim">&#182;</a></h3><p>In this notebook I show the workflow process to simulate family data with genotypes generated conditional on affection status using RarePedSim. And use RV-NPL to analyze the simulated families.</p>
 
 </div>
 </div>
@@ -243,9 +243,23 @@ body {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Workflow-process">Workflow process<a class="anchor-link" href="#Workflow-process">&#182;</a></h2><p>Here I analyze one gene (SORL1), as hard-coded in this notebook:</p>
+<h3 id="Method&amp;Workflow-overview">Method&amp;Workflow overview<a class="anchor-link" href="#Method&amp;Workflow-overview">&#182;</a></h3><p>Here I analyze one gene (MYO7A):</p>
 
-<pre><code>sos run 20190930_NPL_Gene_Analysis.ipynb analyze</code></pre>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>1) I first simulate family data using RarePedSim with the output of VCF file. (The parameters are annotated below)</p>
+
+<pre><code>sos run NPL_Simulation.ipynb simulate</code></pre>
+<p>2) Then use "collapse" command from rvnpl to generate CHP regional markers for the genotypes in pedigrees</p>
+
+<pre><code>sos run NPL_Simulation.ipynb collapse</code></pre>
+<p>3) Finally, use "npl" command from rvnpl to analyze RV-NPL score on the genotypes for CHP markers</p>
+
+<pre><code>sos run NPL_Simulation.ipynb npl</code></pre>
 
 </div>
 </div>
@@ -256,19 +270,35 @@ body {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="k">global</span><span class="p">]</span>
-<span class="c1"># Pattern to path that contains the data to analyze</span>
-<span class="kn">parameter:</span> <span class="n">data_dir</span> <span class="o">=</span> <span class="s1">&#39;/mnt/large_ped_files/whole_exome_NFE_Dutch_filtered_AN_DP_GQ_BOTHpass_missrateByCenter_func_gnomAD_rvhaplo_[chrom]_allmaf_v0420_v2/&#39;</span>
-<span class="c1"># Genes to analyze, chrom + gene name</span>
-<span class="kn">parameter:</span> <span class="n">genes</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;chr11&#39;</span><span class="p">,</span> <span class="s1">&#39;SORL1&#39;</span><span class="p">)]</span>
-<span class="kn">parameter:</span> <span class="n">out_dir</span> <span class="o">=</span> <span class="s1">&#39;./&#39;</span>
+<span class="c1"># Path to the ped file (6-column PED format)</span>
+<span class="kn">parameter:</span> <span class="n">ped_file</span> <span class="o">=</span> <span class="s1">&#39;./data/100extend01.ped&#39;</span>
+<span class="c1"># gene name and chromosome</span>
+<span class="kn">parameter:</span> <span class="n">gene</span> <span class="o">=</span> <span class="s1">&#39;MYO7A&#39;</span>
+<span class="kn">parameter:</span> <span class="n">chromosome</span> <span class="o">=</span> <span class="s1">&#39;chr11&#39;</span>
+<span class="c1"># Variant information for genes to analyze (sfs format)</span>
+<span class="kn">parameter:</span> <span class="n">sfs_file</span> <span class="o">=</span> <span class="s1">&#39;./data/MYO7A.sfs&#39;</span>
+<span class="c1"># conf file contains the simulation specifications (either Mendelian or Complex, details in RarePedSim doc)</span>
+<span class="kn">parameter:</span> <span class="n">conf_file</span> <span class="o">=</span> <span class="s1">&#39;./data/ComplexPhenotype.conf&#39;</span>
+<span class="c1"># the output directory for VCF file</span>
+<span class="kn">parameter:</span> <span class="n">out_dir</span> <span class="o">=</span> <span class="s1">&#39;./data/simulation&#39;</span>
 
-<span class="p">[</span><span class="n">analyze</span><span class="p">]</span>
-<span class="kn">depends:</span> <span class="n">executable</span><span class="p">(</span><span class="s1">&#39;rvnpl&#39;</span><span class="p">)</span>
-<span class="kn">input:</span> <span class="p">[</span><span class="n">data_dir</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;[chrom]&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="n">f</span><span class="s1">&#39;{x[1]}&#39;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">genes</span><span class="p">],</span> <span class="n">group_by</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="kn">output:</span> <span class="n">f</span><span class="s1">&#39;{out_dir}/&#39;</span>
+<span class="p">[</span><span class="n">simulate</span><span class="p">]</span>
+<span class="kn">depends:</span> <span class="n">executable</span><span class="p">(</span><span class="s1">&#39;rarepedsim&#39;</span><span class="p">)</span>
+<span class="kn">output:</span> <span class="n">f</span><span class="s1">&#39;{out_dir}/{gene}/rep1.vcf&#39;</span>
 <span class="kn">bash:</span> <span class="n">expand</span> <span class="o">=</span> <span class="s1">&#39;${ }&#39;</span>
-    <span class="c1"># here I assume the output will be under the &#39;out_dir&#39; directory with file name like &#39;SORL1.out&#39;</span>
-    <span class="n">rvnpl</span> <span class="n">npl</span> <span class="o">--</span><span class="n">path</span> <span class="err">$</span><span class="p">{</span><span class="n">_input</span><span class="p">}</span> <span class="o">--</span><span class="n">output</span> <span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="p">}</span> <span class="o">--</span><span class="n">exact</span> <span class="o">--</span><span class="n">info_only</span> <span class="o">--</span><span class="n">rvibd</span> <span class="o">--</span><span class="n">sall</span> <span class="o">--</span><span class="n">n_jobs</span> <span class="mi">8</span> <span class="o">-</span><span class="n">c</span> <span class="mf">0.1</span> <span class="o">--</span><span class="n">fam_rep</span> <span class="mi">10000</span> <span class="o">--</span><span class="n">perfect_max</span> <span class="mi">1000</span>
+    <span class="n">rarepedsim</span> <span class="n">generate</span> <span class="o">-</span><span class="n">s</span> <span class="err">$</span><span class="p">{</span><span class="n">sfs_file</span><span class="p">}</span> <span class="o">-</span><span class="n">c</span> <span class="err">$</span><span class="p">{</span><span class="n">conf_file</span><span class="p">}</span> <span class="o">-</span><span class="n">p</span> <span class="err">$</span><span class="p">{</span><span class="n">ped_file</span><span class="p">}</span> <span class="o">--</span><span class="n">num_genes</span> <span class="mi">1</span> <span class="o">--</span><span class="n">num_reps</span> <span class="mi">1</span> <span class="o">-</span><span class="n">o</span> <span class="err">$</span><span class="p">{</span><span class="n">out_dir</span><span class="p">}</span> <span class="o">--</span><span class="n">vcf</span> <span class="o">--</span><span class="n">debug</span> <span class="o">-</span><span class="n">b</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">bgzip</span> <span class="o">-</span><span class="n">c</span> <span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="p">}</span> <span class="o">&gt;</span> <span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="p">}</span><span class="o">.</span><span class="n">gz</span>
+    <span class="n">tabix</span> <span class="o">-</span><span class="n">p</span> <span class="n">vcf</span> <span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="p">}</span><span class="o">.</span><span class="n">gz</span>
+<span class="p">[</span><span class="n">collapse</span><span class="p">]</span>
+<span class="kn">depends:</span> <span class="n">executable</span><span class="p">(</span><span class="s1">&#39;rvnpl&#39;</span><span class="p">)</span>
+<span class="kn">output:</span> <span class="n">f</span><span class="s1">&#39;{out_dir}/{gene}/rep1/MERLIN/rep1.{chromosome}.ped&#39;</span>
+<span class="kn">bash:</span> <span class="n">expand</span> <span class="o">=</span> <span class="s1">&#39;${ }&#39;</span>
+    <span class="n">rvnpl</span> <span class="n">collapse</span> <span class="o">--</span><span class="n">fam</span> <span class="err">$</span><span class="p">{</span><span class="n">ped_file</span><span class="p">}</span> <span class="o">--</span><span class="n">vcf</span> <span class="err">$</span><span class="p">{</span><span class="n">out_dir</span><span class="p">}</span><span class="o">/</span><span class="err">$</span><span class="p">{</span><span class="n">gene</span><span class="p">}</span><span class="o">/</span><span class="n">rep1</span><span class="o">.</span><span class="n">vcf</span><span class="o">.</span><span class="n">gz</span> <span class="o">--</span><span class="n">output</span> <span class="err">$</span><span class="p">{</span><span class="n">out_dir</span><span class="p">}</span><span class="o">/</span><span class="err">$</span><span class="p">{</span><span class="n">gene</span><span class="p">}</span><span class="o">/</span><span class="n">rep1</span> <span class="o">--</span><span class="n">freq</span> <span class="n">EVSMAF</span> <span class="o">-</span><span class="n">c</span> <span class="mf">0.01</span> <span class="o">--</span><span class="n">rvhaplo</span>
+<span class="p">[</span><span class="n">npl</span><span class="p">]</span>
+<span class="kn">depends:</span> <span class="n">executable</span><span class="p">(</span><span class="s1">&#39;rvnpl&#39;</span><span class="p">)</span>
+<span class="kn">output:</span> <span class="n">f</span><span class="s1">&#39;{out_dir}/{gene}/rep1/pvalue.txt&#39;</span>
+<span class="kn">bash:</span> <span class="n">expand</span> <span class="o">=</span> <span class="s1">&#39;${ }&#39;</span>
+    <span class="n">rvnpl</span> <span class="n">npl</span> <span class="o">--</span><span class="n">path</span> <span class="err">$</span><span class="p">{</span><span class="n">out_dir</span><span class="p">}</span><span class="o">/</span><span class="err">$</span><span class="p">{</span><span class="n">gene</span><span class="p">}</span><span class="o">/</span><span class="n">rep1</span> <span class="o">--</span><span class="n">output</span> <span class="err">$</span><span class="p">{</span><span class="n">out_dir</span><span class="p">}</span><span class="o">/</span><span class="err">$</span><span class="p">{</span><span class="n">gene</span><span class="p">}</span><span class="o">/</span><span class="n">rep1</span> <span class="o">--</span><span class="n">exact</span> <span class="o">--</span><span class="n">info_only</span> <span class="o">--</span><span class="n">perfect</span> <span class="o">--</span><span class="n">sall</span> <span class="o">--</span><span class="n">rvibd</span> <span class="o">--</span><span class="n">n_jobs</span> <span class="mi">8</span> <span class="o">-</span><span class="n">c</span> <span class="mf">0.001</span> <span class="o">--</span><span class="n">rep</span> <span class="mi">2000000</span>
 </pre></div>
 
     </div>
@@ -279,7 +309,14 @@ body {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Results">Results<a class="anchor-link" href="#Results">&#182;</a></h2><p>The output files (pvalue.txt and original_result.txt) will be located in the directory indicated by parameter out_dir. The empirical p-values for NPL-pairs and NPL-all are 0.020 and 0.013 (due to the randomness of permutations, the exact p-value can change but should be similar).</p>
+<h3 id="Results">Results<a class="anchor-link" href="#Results">&#182;</a></h3><Add Result> 
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The p-values for two NPL scores are presented in file pvalue.txt under the output directory.</p>
 
 </div>
 </div>
@@ -299,7 +336,7 @@ body {
 </div>
 <hr>
 &copy 2019 Linhai Zhao at Center for Statistical Genetics, Baylor College of Medicine
-<p><small>Exported from <a href="http://github.com/percylinhai/rvnpl-notes/blob/86f28f3babecea2ca8844485a0d81080fc3642a8/analysis/20190930_NPL_Gene_Analysis.ipynb"><code>analysis/20190930_NPL_Gene_Analysis.ipynb</code></a> committed by Percy Zhao on Thu Nov 21 10:12:56 2019 <a href="http://github.com/percylinhai/rvnpl-notes/commit/86f28f3babecea2ca8844485a0d81080fc3642a8">revision 4, 86f28f3</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/percylinhai/rvnpl-notes/blob/ccc8c06f686456c74472b0b0407c783b33634e9d/analysis/NPL_Simulation.ipynb"><code>analysis/NPL_Simulation.ipynb</code></a> committed by Percy Zhao on Tue Nov 26 09:40:40 2019 <a href="http://github.com/percylinhai/rvnpl-notes/commit/ccc8c06f686456c74472b0b0407c783b33634e9d">revision 13, ccc8c06</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
