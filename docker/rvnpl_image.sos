@@ -4,5 +4,5 @@ bash:
 
 [test]
 bash: container = 'statisticalgenetics/rvnpl'
-  rarepedsim -h
+  rarepedsim generate -h
   rvnpl -h
