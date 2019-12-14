@@ -1,4 +1,4 @@
-name: 'RV-NPL project analysis'
+name: 'RV-NPL project'
 repo: 'http://github.com/percylinhai/rvnpl-notes'
 footer: "&copy 2019 Linhai Zhao at Center for Statistical Genetics, Baylor College of Medicine"
 include_dir: ['analysis']
