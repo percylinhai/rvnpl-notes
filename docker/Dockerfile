@@ -27,7 +27,7 @@ RUN cd /tmp && wget http://bioinformatics.org/simped/rare/download/rarepedsim-1.
 
 # RV-NPL
 RUN cd /tmp && wget https://github.com/statgenetics/rvnpl/archive/master.tar.gz && tar xzvf master.tar.gz && cd rvnpl-master && python setup.py install && rm -rf /tmp/*
-
+RUN mkdir /.SEQLinkage/ && cd /.SEQLinkage/ && wget http://bioinformatics.org/spower/download/.private/genemap.txt && mkdir ./bin && cd ./bin && wget http://bioinformatics.org/spower/download/.private/linux/mlink http://bioinformatics.org/spower/download/.private/linux/unknown http://bioinformatics.org/spower/download/.private/linux/makeped http://bioinformatics.org/spower/download/.private/linux/pedcheck
 ENV PYTHON_EGG_CACHE=/tmp/Python-Eggs
 
 # Default command
