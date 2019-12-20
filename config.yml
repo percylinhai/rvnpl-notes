@@ -4,7 +4,7 @@ footer: "&copy 2019 Linhai Zhao at Center for Statistical Genetics, Baylor Colle
 include_dir: ['analysis']
 # exclude_file: []
 # hide_navbar: []
-# homepage: "Overview.ipynb"
+homepage: "Overview.ipynb"
 # skip_homepage: False
 # add_commit_info: True
 # disqus: NULL

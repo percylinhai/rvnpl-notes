@@ -5,7 +5,7 @@
 <meta name="ipynb_website:version" content="0.9.7" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>RV-NPL project analysis</title>
+<title>RV-NPL project</title>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -171,7 +171,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">RV-NPL project analysis</a>
+      <a class="navbar-brand" href="index.html">RV-NPL project</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -198,12 +198,51 @@ $(document).ready(function () {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Exploring-RV-NPL">Exploring RV-NPL<a class="anchor-link" href="#Exploring-RV-NPL">&#182;</a></h1><p>This page includes the work processes for both the simulation analysis and real data analysis for RV-NPL.</p>
-<p>a) The simulation analysis contains the processes of generating simulated genotypes for families with given affection status and using RV-NPL to generate CHP regional markers and do NPL analysis.</p>
-<p>b) The real data analysis contains the process of using RV-NPL to analyze genes in ADSP pedigrees.</p>
+<h1 id="Exploring-RV-NPL-with-simulated-family-data">Exploring RV-NPL with simulated family data<a class="anchor-link" href="#Exploring-RV-NPL-with-simulated-family-data">&#182;</a></h1><h2 id="Overview">Overview<a class="anchor-link" href="#Overview">&#182;</a></h2><p>This page includes the work processes for the simulation analysis for RV-NPL.</p>
+<p>The workflow contains the processes of</p>
+<p>1) generating simulated genotypes for families with given affection status</p>
+<p>2) using RV-NPL to generate CHP regional markers</p>
+<p>3) performing RV-NPL analysis on families with CHP genotypes</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Setting-up-prerequisites">Setting up prerequisites<a class="anchor-link" href="#Setting-up-prerequisites">&#182;</a></h2><p>SOS and docker need to be installed in your machine before the workflow can be performed.</p>
+<p>Instructions on the installation can be found at: <a href="http://statgen.us/lab-wiki/orientation/jupyter-setup.html#sos-suite">http://statgen.us/lab-wiki/orientation/jupyter-setup.html#sos-suite</a></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Quick-Trial">Quick Trial<a class="anchor-link" href="#Quick-Trial">&#182;</a></h2><p>First, download the git repository:</p>
+
+<pre><code>git clone https://github.com/percylinhai/rvnpl-notes.git
+cd rvnpl-notes</code></pre>
+<p>After both SOS and docker are successfully installed, try the default command below to run the workflow:</p>
+
+<pre><code>sos run analysis/NPL_Simulation.ipynb simulate</code></pre>
+<p>More details on the workflow steps and the parameters can be found in the notebook analysis/NPL_Simulation.ipynb.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
 </div>
 <hr>
 &copy 2019 Linhai Zhao at Center for Statistical Genetics, Baylor College of Medicine

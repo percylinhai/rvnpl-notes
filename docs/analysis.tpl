@@ -187,7 +187,7 @@ $(document).ready(function () {
 
 
 
-<title>RV-NPL project analysis</title>
+<title>RV-NPL project</title>
 
 <style type = "text/css">
 body {
@@ -212,7 +212,7 @@ body {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">RV-NPL project analysis</a>
+      <a class="navbar-brand" href="../index.html">RV-NPL project</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
