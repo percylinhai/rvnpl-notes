@@ -199,7 +199,7 @@ $(document).ready(function () {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Exploring-RV-NPL-with-simulated-family-data">Exploring RV-NPL with simulated family data<a class="anchor-link" href="#Exploring-RV-NPL-with-simulated-family-data">&#182;</a></h1><h2 id="Overview">Overview<a class="anchor-link" href="#Overview">&#182;</a></h2><p>This page includes the work processes for the simulation analysis for RV-NPL.</p>
-<p>The workflow contains the processes of</p>
+<p>The workflow contains the simulation processes for families with either qualitative or quantitative traits, each contains the following 3 steps:</p>
 <ol>
 <li><p>generating simulated genotypes for families with given affection status</p>
 </li>
@@ -226,15 +226,19 @@ $(document).ready(function () {
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Quick-Trial">Quick Trial<a class="anchor-link" href="#Quick-Trial">&#182;</a></h2><p>First, download the git repository:</p>
 
-<pre><code>git clone https://github.com/percylinhai/rvnpl-notes.git
+<pre><code>git clone https://github.com/statgenetics/rvnpl-notes.git
 cd rvnpl-notes</code></pre>
 <p>Then, use docker to pull the docker image for this practice:</p>
 
-<pre><code>docker pull statisticalgenetics/rvnpl</code></pre>
+<pre><code>docker pull statisticalgenetics/rvnpl
+docker pull statisticalgenetics/rarepedsim</code></pre>
 <p>Next, try the default command below to run the workflow:</p>
 
 <pre><code>sos run analysis/NPL_Simulation.ipynb simulate</code></pre>
-<p>More details on the workflow steps and the parameters can be found in the notebook analysis/NPL_Simulation.ipynb.</p>
+<p>or for families with quantitative traits:</p>
+
+<pre><code>sos run analysis/QNPL_Simulation.ipynb simulate</code></pre>
+<p>More details on the workflow steps and the parameters can be found in the notebook analysis/NPL_Simulation.ipynb or analysis/QNPL_Simulation.ipynb.</p>
 
 </div>
 </div>
