@@ -331,13 +331,12 @@ body {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Configuration-file-for-disease-model">Configuration file for disease model<a class="anchor-link" href="#Configuration-file-for-disease-model">&#182;</a></h3><p>First, we will need to generate the configuration file for the disease model which will be used in the simulation software RarePedSim.</p>
-<h4 id="Specify-various-simulation-scenarios-through-the-configuration-file">Specify various simulation scenarios through the configuration file<a class="anchor-link" href="#Specify-various-simulation-scenarios-through-the-configuration-file">&#182;</a></h4><p>The configuration file serves as the primary input for RarePedSim to generate simulated genotypes for families with given phenotype values. For quantitative traits, linear mean-shift ("LNR") model is used to model the shift effect of causal rare variants on the distribution of quantitative trait values. Furthermore, we can specify different simulation scenarios by giving different values for parameters in the configuration file. For example:</p>
-
-<pre><code>a. when simulating genotypes under the null, we can specify "meanshift_rare_detrimental=0.0" to assume that detrimental rare variants have no impact on the distribution of quantitative trait value under study; 
-b. when simulating under the alternative, we used "meanshift_rare_detrimental=1.0" to assume carriers of detrimental rare variants are more likely to have larger trait value;
-c. when simulating with different proportion of rare variants being causal, we can specify a value for parameter "proportion_causal"(e.g. proportion_causal=0.5);
-
-</code></pre>
+<h4 id="Specify-various-simulation-scenarios-through-the-configuration-file">Specify various simulation scenarios through the configuration file<a class="anchor-link" href="#Specify-various-simulation-scenarios-through-the-configuration-file">&#182;</a></h4><p>The configuration file serves as the primary input for <code>RarePedSim</code> to generate simulated genotypes for families with given phenotype values. For quantitative traits, linear mean-shift ("LNR") model is used to model the shift effect of causal rare variants on the distribution of quantitative trait values. Furthermore, we can specify different simulation scenarios by giving different values for parameters in the configuration file. For example:</p>
+<ol>
+<li>when simulating genotypes under the null, we can specify "meanshift_rare_detrimental=0.0" to assume that detrimental rare variants have no impact on the distribution of quantitative trait value under study. That is, quantitative traits will be sampled from distribution $N(0, \sigma^2)$ for all genes regardless of whether or not rare variants present in the gene.</li>
+<li>when simulating under the alternative, we used "meanshift_rare_detrimental=1.0" to assume carriers of detrimental rare variants are more likely to have larger trait value. That is, quantatitive traits will be sampled from distribution $N(\sigma M, \sigma^2)$ where $M$ is the number of rare variants in the gene.</li>
+<li>when simulating with different proportion of rare variants being causal, we can specify a value for parameter "proportion_causal"(e.g. proportion_causal=0.5). In this case the number of rare variants contributing to the phenotype is $M' \sim Binom(M, p=0.5)$. </li>
+</ol>
 <p>For more details about the parameters in the configuration file, refer to <a href="https://github.com/statgenetics/rarepedsim/blob/master/doc/doc_RarePedSim.pdf">RarePedSim Documentation</a></p>
 
 </div>
@@ -490,7 +489,7 @@ c. when simulating with different proportion of rare variants being causal, we c
 </div>
 <hr>
 &copy 2019 Linhai Zhao at Center for Statistical Genetics, Baylor College of Medicine
-<p><small>Exported from <a href="http://github.com/percylinhai/rvnpl-notes/blob/65dc8dceedcebd7c30d9f1090d06fea17315e1f5/analysis/QNPL_Simulation.ipynb"><code>analysis/QNPL_Simulation.ipynb</code></a> committed by Gao Wang on Wed Apr 29 17:57:03 2020 <a href="http://github.com/percylinhai/rvnpl-notes/commit/65dc8dceedcebd7c30d9f1090d06fea17315e1f5">revision 3, 65dc8dc</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/percylinhai/rvnpl-notes/blob/554cb6d25f62da1743abc50190bbc596d0bd36f0/analysis/QNPL_Simulation.ipynb"><code>analysis/QNPL_Simulation.ipynb</code></a> committed by Gao Wang on Wed Apr 29 18:33:00 2020 <a href="http://github.com/percylinhai/rvnpl-notes/commit/554cb6d25f62da1743abc50190bbc596d0bd36f0">revision 4, 554cb6d</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
