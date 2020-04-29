@@ -1,11 +1,11 @@
-To build docker image:
+To build docker image for RarePedSim:
 
 ```
-sos run rvnpl_image.sos build
+docker build -t statisticalgenetics/rarepedsim . -f rarepedsim.dockerfile
 ```
 
 To test the build,
 
 ```
-sos run rvnpl_image.sos test
+docker run --rm --security-opt label:disable -t statisticalgenetics/rarepedsim rarepedsim generate -h
 ```

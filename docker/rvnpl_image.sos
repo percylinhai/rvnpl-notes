@@ -1,8 +1,0 @@
-[build]
-bash:
-  docker build -t statisticalgenetics/rvnpl .
-
-[test]
-bash: container = 'statisticalgenetics/rvnpl'
-  rarepedsim generate -h
-  rvnpl -h
