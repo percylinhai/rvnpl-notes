@@ -493,9 +493,23 @@ body {
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Additional-Notes-for-Analysis-of-Sequence-data-and-Age-at-Onset-of-Alzheimer's-Disease">Additional Notes for Analysis of Sequence data and Age-at-Onset of Alzheimer's Disease<a class="anchor-link" href="#Additional-Notes-for-Analysis-of-Sequence-data-and-Age-at-Onset-of-Alzheimer's-Disease">&#182;</a></h2><p>For RV-QNPL paper we performed analysis of whole genome sequence data obtained on late-onset Alzheimer’s Disease (LOAD) families from the Alzheimer’s Disease Sequencing Project (ADSP). The workflow is very similar to the analysis of simulated data steps <code>default_2</code> and <code>default_3</code> -- you may swap the simulated VCF files with real data in VCF format and perform the analysis. Some details to note:</p>
+<ol>
+<li><strong>Quality Control (QC)</strong>: QC can be the most important step when analyzing sequence data. For the LOAD families, initial QC was performed by the ADSP QC working group and was followed by additional QC at the variant-, genotype-, and family-level. </li>
+<li><strong>Annotation</strong>: The VCF files from ADSP were annotated with ANNOVAR and the MAF information annotated from gnomAD database using population-specific MAFs. These MAF were used to determine which variants are analyzed, i.e. rare and also to reconstruct haplotypes when there were founders with missing data to determine identical by descent (IBD) sharing. Since the LOAD ADSP families are of European and Caribbean Hispanic ancestry, allele frequencies from NFE and Admixed Americans (AMR), respectively were used.   </li>
+<li><strong>Phenotype processing</strong>: For family members with LOAD, age-at-onset (AAO) was used as the QT. Before analysis AAO was first adjusted for sex and then standardized before analysis.</li>
+<li><strong>Analysis</strong>: RV-QNPL was used to analyze genes with &gt;1 rare variant site. Frameshift, missense, nonsense and splice site variants with population-specific MAFs &lt;0.01 were analyzed. For missing genotypes, CHP regional markers were constructed using gnomAD allele frequencies that corresponded to the family’s ancestry, i.e. NFE or AMR, by providing the specific MAF information name to parameter “--freq” in RV-QNPL. Joint and individual analyses were performed for the European and Caribbean Hispanic families.</li>
+</ol>
+
+</div>
+</div>
+</div>
 <hr>
 &copy 2019 Linhai Zhao at Center for Statistical Genetics, Baylor College of Medicine
-<p><small>Exported from <a href="http://github.com/percylinhai/rvnpl-notes/blob/7f773285e9759de19ce7df39eaee4b6f5e1d8237/analysis/QNPL_Simulation.ipynb"><code>analysis/QNPL_Simulation.ipynb</code></a> committed by Gao Wang on Thu May 21 14:46:53 2020 <a href="http://github.com/percylinhai/rvnpl-notes/commit/7f773285e9759de19ce7df39eaee4b6f5e1d8237">revision 10, 7f77328</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/percylinhai/rvnpl-notes/blob/ba71536b192c3fe480930d09da84260f33a1f214/analysis/QNPL_Simulation.ipynb"><code>analysis/QNPL_Simulation.ipynb</code></a> committed by Gao Wang on Thu May 21 14:50:15 2020 <a href="http://github.com/percylinhai/rvnpl-notes/commit/ba71536b192c3fe480930d09da84260f33a1f214">revision 11, ba71536</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
