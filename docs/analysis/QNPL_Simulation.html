@@ -242,7 +242,7 @@ body {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Aim">Aim<a class="anchor-link" href="#Aim">&#182;</a></h2><p>The aim of this notebook is to display the workflow process used to 1) simulate genotype data for families conditional on quantitative trait values using RarePedSim and 2) the analysis of the simulated data using RV-QNPL to evaluate type I error and power.</p>
+<h2 id="Aim">Aim<a class="anchor-link" href="#Aim">&#182;</a></h2><p>The aim of this notebook is to display a workflow process to 1) simulate genotype data for families, conditional on their quantitative trait (QT) values using RarePedSim and 2) analysis of the simulated data using RV-QNPL to evaluate type I error and power.</p>
 
 </div>
 </div>
@@ -262,18 +262,18 @@ body {
 </li>
 <li><p>To generate the collapsed haplotype pattern (CHP) regional markers for pedigrees the "collapse" command from <code>rvnpl</code> is used.</p>
 </li>
-<li><p>The "qnpl" command from <code>rvnpl</code> is used to the quantitative trait and CHP markers.</p>
+<li><p>The "qnpl" command from <code>rvnpl</code> is used to analyze the QT and CHP regional markers.</p>
 </li>
 </ol>
 <p>The default workflow can be executed by doing the following command:</p>
 
-<pre><code>sos run analysis/QNPL_Simulation.ipynb simulate</code></pre>
-<p>Or simulation can be performed so that only a proportion of functional rare variants, e.g., 50%,  contribute to disease etiology:</p>
+<pre><code>sos run analysis/QNPL_Simulation.ipynb</code></pre>
+<p>Alternatively, simulations can also be performed so that only a proportion of functional rare variants, e.g., 50%, contribute to disease etiology:</p>
 
-<pre><code>sos run analysis/QNPL_Simulation.ipynb simulate --name quant_Prop50 --proportion 0.5</code></pre>
-<p>Or, to simulate genotypes under the null (no linkage) the null the mean shift is set to 0:</p>
+<pre><code>sos run analysis/QNPL_Simulation.ipynb --name quant_Prop50 --proportion 0.5</code></pre>
+<p>It is also possible to simulate genotypes under the null (no linkage) by setting the mean shift to 0:</p>
 
-<pre><code>sos run analysis/QNPL_Simulation.ipynb simulate --name quant_null --mean_shift 0.0</code></pre>
+<pre><code>sos run analysis/QNPL_Simulation.ipynb --name quant_null --mean_shift 0.0</code></pre>
 
 </div>
 </div>
@@ -282,10 +282,10 @@ body {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Input-Data">Input Data<a class="anchor-link" href="#Input-Data">&#182;</a></h2><ol>
-<li>The PED file contains the pedigree structures as well as the pre-specified quantitative trait values.</li>
-<li>The SFS file containing the variant information for each simulatedgene (6-column format: gene, chromosome, position, ref, alt, MAF, function score)*. </li>
+<li>The PED file contains the pedigree structures as well as QT values.</li>
+<li>The SFS file containing the variant information for each simulated gene (6-column format: gene, chromosome, position, ref, alt, MAF, function score).</li>
 </ol>
-<p>*For the SFS files used here, the variant information was downloaded from gnomAD website. The non-Finnish European allele frequency is used for the MAF column. The value for the "function score" column is based on the functional annotations from gnomAD.</p>
+<p>For the SFS files used here, the variant information was downloaded from gnomAD website. Non-Finnish European (NFE) allele frequencies are used in the minor allele frequency (MAF) column. The value for the "function score" column is based on the functional annotations from gnomAD which determines the type of variant, i.e. synonymous, missense. Each SFS file contains variants from each simulated gene respectively.</p>
 
 </div>
 </div>
@@ -331,11 +331,13 @@ body {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Configuration-file-for-disease-model">Configuration file for disease model<a class="anchor-link" href="#Configuration-file-for-disease-model">&#182;</a></h3><p>First, we will need to generate the configuration file for the disease model which will be used in the simulation software <code>RarePedSim</code>.</p>
-<h4 id="Specify-various-simulation-scenarios-through-the-configuration-file">Specify various simulation scenarios through the configuration file<a class="anchor-link" href="#Specify-various-simulation-scenarios-through-the-configuration-file">&#182;</a></h4><p>The configuration file serves as the primary input for <code>RarePedSim</code> to generate simulated genotypes for families with given phenotype values. For quantitative traits (QT), linear mean-shift ("LNR") model is used to model the mean-shift effect of causal rare variants on the distribution of QT values. The input <code>ped</code> file contains a column of pre-specified QT values. These QT values were sampled from $N(2,1)$ distribution for specified members in the family and from $N(0,1)$ for others, then standardized (mean = 0, standard deviation = 1) and saved as the last column of the PED file. Given these QT values and MAF data from gnomAD, we can generate genotypes under different scenarios for genotype data by giving different values for parameters in the configuration file. For example:</p>
+<h4 id="Specify-various-simulation-scenarios-through-the-configuration-file">Specify various simulation scenarios through the configuration file<a class="anchor-link" href="#Specify-various-simulation-scenarios-through-the-configuration-file">&#182;</a></h4><p>The configuration file serves as the primary input for <code>RarePedSim</code> to generate simulated genotypes for families with QT values. For QTs, the linear mean-shift ("LNR") model is used to model the effect of causal rare variants on the distribution of QT values. The input PED file contains a column of QT values. These QT values were generated by  sampling from a $N(2,1)$ distribution for a subset of family members and from a $N(0,1)$ distribution for the remaining family members, then standardized (mean = 0, standard deviation = 1) and saved in the last column of the PED file. Given the QT values in the pedigree(s) and MAF data obtained from gnomAD, genotypes can be simulated. For example:</p>
 <ol>
-<li>When genotypes are simulated under the null that rare variants are not associated with QT values, we set "meanshift_rare_detrimental=0.0". Genotype will be generated from given MAF assuming Hardy-Weinberg equilibrium, regardless of QT values.</li>
-<li>When simulating under the alternative that rare variants cause mean-shift in QT values, we used "meanshift_rare_detrimental=1.0" to assume each rare variants increase the QT by one standard deviation. That is, QT values will be shifted from $N(0,\sigma^2)$ distribution to $N(\sigma M, \sigma^2)$ where $M$ is total count of detrimental rare variants in the gene. Distribution of $M$ is then estimated based on observed QT, and will be used to adjust baseline MAF to simulated genotypes with QT associations. For formal derivation of this model please refer to Section 3.3 of <a href="https://github.com/statgenetics/rarepedsim/blob/master/doc/doc_RarePedSim.pdf">RarePedSim Documentation</a>.</li>
-<li>When simulating with different proportions of rare variants being causal, we can specify a value for parameter "proportion_causal" (e.g. proportion_causal=0.5). </li>
+<li><p>When genotypes are simulated under the null, rare variants are not associated with QT values, i.e., <code>meanshift_rare_detrimental=0.0</code>. Genotype are generated using MAF obtained from gnomAD assuming Hardy-Weinberg equilibrium and Mendelian segregation, regardless of QT values.</p>
+</li>
+<li><p>When genotypes are simulated under the alternative, rare variants are assumed to cause an increase in QT values, i.e., <code>meanshift_rare_detrimental</code> is set to &gt;0. For this example, we set <code>meanshift_rare_detrimental=1</code> so that rare variant within a gene region increase with the QT value. The distribution of rare variants is $N(\sigma M, \sigma^2)$ where $M$ is total count of detrimental rare variants within a gene. Conditional on pre-specified QT values, the distribution of $M$, denoted as $p(M)$ are estimated and the genotypes are assigned based on Mendelian segregation. For formal derivation of this model please refer to Section 3.3 of <a href="https://github.com/statgenetics/rarepedsim/blob/master/doc/doc_RarePedSim.pdf">RarePedSim Documentation</a>.</p>
+</li>
+<li>When it is desired to simulate different proportions of rare variants being causal (rare variants that increase QT values) <code>proportion_causal</code> can be set be set &lt;1, e.g., <code>proportion_causal=0.5</code>.  When all variants are causal we set <code>proportion_causal=1</code>.</li>
 </ol>
 <p>Please refer to the Appendix of <a href="https://github.com/statgenetics/rarepedsim/blob/master/doc/doc_RarePedSim.pdf">RarePedSim Documentation</a> for more details on other parameters used in the configuration file.</p>
 
@@ -396,8 +398,8 @@ body {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Generate-genotypes-for-given-families">Generate genotypes for given families<a class="anchor-link" href="#Generate-genotypes-for-given-families">&#182;</a></h3><p>Here, we use RarePedSim to generate genotypes for families with given quantitative traits based on user-specified disease model in the configuration file.</p>
-<p>The output file is a VCF file and we need to tabix it before the next step.</p>
+<h3 id="Generating-Genotypes-for-Families">Generating Genotypes for Families<a class="anchor-link" href="#Generating-Genotypes-for-Families">&#182;</a></h3><p>RarePedSim is used to generate genotypes for families with QT data based on user-specified model in the configuration file.</p>
+<p>The output is a VCF file and <code>tabix</code> tool is used to build index in preparation for input to the next step.</p>
 
 </div>
 </div>
@@ -407,7 +409,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">simulate_1</span> <span class="p">(</span><span class="n">rarepedsim</span><span class="p">)]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">default_1</span> <span class="p">(</span><span class="n">RarePedSim</span> <span class="n">simulation</span> <span class="n">of</span> <span class="n">pedigree</span> <span class="n">genotype</span> <span class="n">data</span><span class="p">)]</span>
 <span class="kn">depends:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">out_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="kp">name</span><span class="si">}</span><span class="s1">.conf&#39;</span>
 <span class="kn">input:</span> <span class="n">for_each</span> <span class="o">=</span> <span class="s1">&#39;genes&#39;</span>
 <span class="kn">output:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">out_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">_genes</span><span class="si">:</span><span class="s1">bn</span><span class="si">}</span><span class="s1">.vcf.gz&#39;</span>
@@ -426,7 +428,7 @@ body {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Generate-CHP-regional-marker">Generate CHP regional marker<a class="anchor-link" href="#Generate-CHP-regional-marker">&#182;</a></h3><p>The next step is to use RV-NPL to generate CHP regional markers for the genotypes in families.</p>
+<h3 id="Construction-of-CHP-Regional-Markers-using-RV-NPL">Construction of CHP Regional Markers using RV-NPL<a class="anchor-link" href="#Construction-of-CHP-Regional-Markers-using-RV-NPL">&#182;</a></h3><p>RV-NPL determines the CHP regional markers using genotypes from the families. Variants from either simulation studies or from sequence data can be used as input data. Here we are using simulated variants from step <code>default_1</code>. Rare variants with MAF below 0.01 are analyzed to construct the CHP regional markers by setting the parameter <code>-c 0.01</code>. The MAF information column is specified at <code>--freq EVSMAF</code>, since only variants with a MAF&lt;0.01 will be analyzed</p>
 
 </div>
 </div>
@@ -436,7 +438,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">simulate_2</span> <span class="p">(</span><span class="n">CHP</span><span class="p">)]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">default_2</span> <span class="p">(</span><span class="n">Computing</span> <span class="n">CHP</span> <span class="n">markers</span><span class="p">)]</span>
 <span class="kn">output:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">_input</span><span class="si">:</span><span class="s1">nn</span><span class="si">}</span><span class="s1">/MERLIN/</span><span class="si">{</span><span class="n">_input</span><span class="si">:</span><span class="s1">bnn</span><span class="si">}</span><span class="s1">.CHP.ped&#39;</span>
 <span class="kn">bash:</span> <span class="n">container</span> <span class="o">=</span> <span class="s1">&#39;statisticalgenetics/rvnpl&#39;</span><span class="p">,</span> <span class="n">environment</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;HOME&#39;</span><span class="p">:</span> <span class="s1">&#39;/seqlink&#39;</span><span class="p">},</span> <span class="n">expand</span> <span class="o">=</span> <span class="s1">&#39;${ }&#39;</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">_output</span><span class="si">:</span><span class="s1">n</span><span class="si">}</span><span class="s1">.stderr&#39;</span><span class="p">,</span> <span class="n">stdout</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">_output</span><span class="si">:</span><span class="s1">n</span><span class="si">}</span><span class="s1">.stdout&#39;</span>
     <span class="n">rvnpl</span> <span class="n">collapse</span> <span class="o">--</span><span class="n">fam</span> <span class="err">$</span><span class="p">{</span><span class="n">ped_file</span><span class="p">}</span> <span class="o">--</span><span class="n">vcf</span> <span class="err">$</span><span class="p">{</span><span class="n">_input</span><span class="p">}</span> <span class="o">--</span><span class="n">output</span> <span class="err">$</span><span class="p">{</span><span class="n">_input</span><span class="p">:</span><span class="n">nn</span><span class="p">}</span> <span class="o">--</span><span class="n">freq</span> <span class="n">EVSMAF</span> <span class="o">-</span><span class="n">c</span> <span class="mf">0.01</span> <span class="o">--</span><span class="n">rvhaplo</span> \
@@ -451,7 +453,7 @@ body {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Perform-RV-QNPL-analysis">Perform RV-QNPL analysis<a class="anchor-link" href="#Perform-RV-QNPL-analysis">&#182;</a></h3><p>Finally, we use RV-QNPL to analyze the CHP genotypes to get the significance of allele-sharing on rare variants in the families.</p>
+<h3 id="Performing-RV-QNPL-Analysis-on-QT-Values-and-CHP-Regional-Markers">Performing RV-QNPL Analysis on QT Values and CHP Regional Markers<a class="anchor-link" href="#Performing-RV-QNPL-Analysis-on-QT-Values-and-CHP-Regional-Markers">&#182;</a></h3><p>RV-QNPL is used to analyze the CHP genotypes and QT values.  Unlike NPL, for RV-NPL only sharing of the minor allele is evaluated.</p>
 
 </div>
 </div>
@@ -461,7 +463,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">simulate_3</span> <span class="p">(</span><span class="n">rvnpl</span><span class="p">)]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">default_3</span> <span class="p">(</span><span class="n">NPL</span> <span class="n">analysis</span> <span class="n">of</span> <span class="n">rare</span> <span class="n">variants</span> <span class="k">for</span> <span class="n">quantitative</span> <span class="n">traits</span><span class="p">)]</span>
 <span class="kn">output:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">_input</span><span class="si">:</span><span class="s1">dd</span><span class="si">}</span><span class="s1">/pvalue.txt&#39;</span>
 <span class="kn">bash:</span> <span class="n">container</span> <span class="o">=</span> <span class="s1">&#39;statisticalgenetics/rvnpl&#39;</span><span class="p">,</span> <span class="n">environment</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;HOME&#39;</span><span class="p">:</span> <span class="s1">&#39;/seqlink&#39;</span><span class="p">},</span> <span class="n">expand</span> <span class="o">=</span> <span class="s1">&#39;${ }&#39;</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">_output</span><span class="si">:</span><span class="s1">n</span><span class="si">}</span><span class="s1">.stderr&#39;</span><span class="p">,</span> <span class="n">stdout</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">_output</span><span class="si">:</span><span class="s1">n</span><span class="si">}</span><span class="s1">.stdout&#39;</span>
     <span class="n">rvnpl</span> <span class="n">qnpl</span> <span class="o">--</span><span class="n">path</span> <span class="err">$</span><span class="p">{</span><span class="n">_input</span><span class="p">:</span><span class="n">dd</span><span class="p">}</span> <span class="o">--</span><span class="n">output</span> <span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="p">:</span><span class="n">d</span><span class="p">}</span> <span class="o">--</span><span class="n">exact</span> <span class="o">--</span><span class="n">rvibd</span> <span class="o">--</span><span class="n">n_jobs</span> <span class="mi">8</span> <span class="o">-</span><span class="n">c</span> <span class="mf">0.001</span> <span class="o">--</span><span class="n">lower_cut</span> <span class="mf">1E-8</span> <span class="o">--</span><span class="n">rep</span> <span class="mi">2000000</span>
@@ -489,7 +491,7 @@ body {
 </div>
 <hr>
 &copy 2019 Linhai Zhao at Center for Statistical Genetics, Baylor College of Medicine
-<p><small>Exported from <a href="http://github.com/percylinhai/rvnpl-notes/blob/4e2cddf39ceda79fdfcedbec2c92857777ded818/analysis/QNPL_Simulation.ipynb"><code>analysis/QNPL_Simulation.ipynb</code></a> committed by Gao Wang on Fri May 1 21:51:21 2020 <a href="http://github.com/percylinhai/rvnpl-notes/commit/4e2cddf39ceda79fdfcedbec2c92857777ded818">revision 8, 4e2cddf</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/percylinhai/rvnpl-notes/blob/9ac3324daa6ee835533b350c807145178495448f/analysis/QNPL_Simulation.ipynb"><code>analysis/QNPL_Simulation.ipynb</code></a> committed by Gao Wang on Thu May 21 14:46:27 2020 <a href="http://github.com/percylinhai/rvnpl-notes/commit/9ac3324daa6ee835533b350c807145178495448f">revision 9, 9ac3324</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
