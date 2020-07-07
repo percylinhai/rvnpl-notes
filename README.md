@@ -3,7 +3,9 @@
 Simulation studies and data analysis using RV-QNPL are documented on [this page](https://statgenetics.github.io/rvnpl-notes/analysis/QNPL_Simulation.html). 
 The source code implementing the analysis workflow can be found [in this notebook](https://github.com/statgenetics/rvnpl-notes/blob/master/analysis/QNPL_Simulation.ipynb).
 
-## Build and test docker image
+You need to have [SoS workflow and notebook suite](https://github.com/vatlab/sos-docs) installed to run these analysis.
+
+To build and test out a dockerized version of `rvnpl`, please clone this repository to your computer and run:
 
 ```
 cd docker
